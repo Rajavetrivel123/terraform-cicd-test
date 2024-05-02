@@ -1,10 +1,10 @@
 terraform {
   backend "s3" {
-    bucket         = "tf16112023"
-    key            = "terraform.tfstate"
-    region         = "us-east-1"
+    bucket         = "terraform.s3.22-04-24"
+    key            = "tfstate"
+    region         = "ap-south-1"
     encrypt        = true
-    dynamodb_table = "terraform-lock"
+    dynamodb_table = "terraforms"
   }
 }
 
@@ -12,18 +12,29 @@ provider "aws" {
   region = var.aws_region
 }
 
-data "aws_ami" "amazon_linux" {
+data "aws_ami" "ubuntu" {
   most_recent = true
-  owners      = ["amazon"]
+  #owners      = ["099720109477"] # Canonical
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
   }
 }
 
+
 resource "aws_instance" "example" {
-  ami           = data.aws_ami.amazon_linux.id
+  ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   key_name      = var.key_name
 

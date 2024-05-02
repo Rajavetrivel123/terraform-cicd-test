@@ -1,4 +1,4 @@
-key_name       = "2023"
+key_name       = "dpp"
 instance_type = "t2.micro"
-aws_region = "us-east-1"
+aws_region = "ap-south-1"
 name="test-instance"

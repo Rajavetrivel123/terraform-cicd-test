@@ -16,12 +16,17 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
+    agent  any
+        options {
+                timestamps ()
+                ansiColor('xterm')
             }
-        }
+    stages {
+        stage('checkout') {
+            steps {
+                  git branch: "main", url: "https://github.com/Rajavetrivel123/terraform-cicd-test.git"
+                  }
+            }}
 
         stage('Terraform Init') {
             steps {
@@ -77,4 +82,4 @@ pipeline {
             deleteDir()
         }
     }
-}
+

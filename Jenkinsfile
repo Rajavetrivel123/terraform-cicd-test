@@ -41,15 +41,15 @@ pipeline {
             }
         }
 
-        stage('Terraform Workspace') {
+        stage('Select or Create Terraform Workspace') {
             steps {
                 script {
-                    // Check if the Terraform workspace exists, create if not
-                    def workspaceExists = sh(script: 'terraform workspace select ${TF_VAR_environment} || true', returnStatus: true) == 0
-
+                    def workspaceName = '${TF_VAR_environment}'
+                    def workspaceExists = sh(script: 'terraform workspace list | grep -q "^' + workspaceName + '$"', returnStatus: true) == 0
                     if (!workspaceExists) {
-                        sh "terraform workspace new ${TF_VAR_environment}"
+                        sh 'terraform workspace new ' + workspaceName
                     }
+                    sh 'terraform workspace select ' + workspaceName
                 }
             }
         }

@@ -14,7 +14,7 @@ provider "aws" {
 
 data "aws_ami" "ubuntu" {
   most_recent = true
-  #owners      = ["099720109477"] # Canonical
+  owners      = ["099720109477"] // Canonical account ID for Ubuntu AMIs
 
   filter {
     name   = "name"
@@ -27,10 +27,11 @@ data "aws_ami" "ubuntu" {
   }
 
   filter {
-    name   = "architecture"
-    values = ["x86_64"]
+    name   = "root-device-type"
+    values = ["ebs"]
   }
 }
+
 
 
 resource "aws_instance" "example" {

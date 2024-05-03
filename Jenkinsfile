@@ -47,7 +47,12 @@ pipeline {
                     def workspaceName = '${TF_VAR_environment}'
                     def workspaceExists = sh(script: 'terraform workspace list | grep -q "^' + workspaceName + '$"', returnStatus: true) == 0
                     if (!workspaceExists) {
-                        sh 'terraform workspace new ' + workspaceName
+                        try {
+                            sh 'terraform workspace new ' + workspaceName
+                        } catch (Exception e) {
+                            // Ignore the error if workspace already exists
+                            echo "Workspace ${workspaceName} already exists."
+                        }
                     }
                     sh 'terraform workspace select ' + workspaceName
                 }

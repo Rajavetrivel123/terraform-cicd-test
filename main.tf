@@ -33,7 +33,7 @@ data "aws_ami" "ubuntu" {
 }
 
 
-resource "aws_instance" "testing_terraform" {
+resource "aws_instance" "example" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   key_name      = var.key_name

@@ -19,5 +19,5 @@ variable "s3_bucket_name" {
 }
 
 variable "name" {
-  description = "testing_terraform"
+  description = "Name of EC2 Intance"
 }

@@ -16,6 +16,11 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     }
 
+    options {
+                timestamps ()
+                ansiColor('xterm')
+            }
+
 
     stages {
         stage('Checkout') {
